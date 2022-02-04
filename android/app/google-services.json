@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "975268329111",
+    "project_id": "common-auth-dbd0c",
+    "storage_bucket": "common-auth-dbd0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975268329111:android:74e476347a95856e9e1bd2",
+        "android_client_info": {
+          "package_name": "com.weathernative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975268329111-qgad21etkq10da7vmovu912u1keblpcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNVJBLdlDwDNftCX8mlnvTgG-XtXaEljU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975268329111-qgad21etkq10da7vmovu912u1keblpcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
