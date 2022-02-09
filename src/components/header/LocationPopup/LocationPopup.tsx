@@ -2,11 +2,13 @@ import React, { FC, useContext } from 'react';
 import { View, ListRenderItem } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-import { PreferenceContext } from '@context';
+import { CityContext } from '@context';
 import { City } from '@models';
 import { Text } from '@components/theme';
 import { ListEmptyText } from '@components/list';
 import { styles } from './styles';
+import { useQuery } from 'react-query';
+import { apiGetBookmarks } from '@api';
 
 interface Props {
 	onSearch?: () => void;
@@ -14,9 +16,13 @@ interface Props {
 
 const LocationPopup: FC<Props> = ({ onSearch }) => {
 	const {
-		state: { bookmarks, current },
+		state: current,
 		actions: { updateCurrent }
-	} = useContext(PreferenceContext);
+	} = useContext(CityContext);
+
+	const { data } = useQuery('bookmarks', apiGetBookmarks, {
+		staleTime: 10 * 60 * 1000
+	});
 
 	const renderCity: ListRenderItem<City> = ({ item }) => {
 		return (
@@ -31,7 +37,7 @@ const LocationPopup: FC<Props> = ({ onSearch }) => {
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={bookmarks.filter(city => {
+				data={data?.filter(city => {
 					if (current !== undefined) {
 						return city._id !== current._id;
 					} else {

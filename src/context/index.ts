@@ -1,3 +1,2 @@
-export * from './PreferenceContext';
+export * from './CityContext';
 export * from './ThemeContext';
-export * from './WeatherContext';

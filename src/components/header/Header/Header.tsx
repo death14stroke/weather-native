@@ -14,7 +14,8 @@ import { LocationPopup } from '../LocationPopup/LocationPopup';
 import { SearchPopup } from '../SearchPopup/SearchPopup';
 import { signOut } from '@hooks/auth';
 import { useTheme } from '@hooks/theme';
-import { PreferenceContext } from '@context';
+import { useBookmarkMutations } from '@hooks/mutations';
+import { CityContext } from '@context';
 import { useStyles } from './styles';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -24,17 +25,14 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ onCurrentLocationSelected }) => {
-	const {
-		state: { current },
-		actions: { addCity }
-	} = useContext(PreferenceContext);
+	const { state: current } = useContext(CityContext);
 	const [open, setOpen] = useState(false);
 	const styles = useStyles(useTheme(), useSafeAreaInsets(), open);
 	const { colors } = useTheme();
+	const [addCity] = useBookmarkMutations();
 
 	const animatedValue = useSharedValue(0);
 	const slideValue = useSharedValue(SCREEN_WIDTH);
-
 	const animatedIconStyle = useAnimatedStyle(() => {
 		const rotate = interpolate(
 			animatedValue.value,

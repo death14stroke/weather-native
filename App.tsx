@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppLoading from 'expo-app-loading';
@@ -10,14 +11,11 @@ import {
 	Quicksand_700Bold
 } from '@expo-google-fonts/quicksand';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import {
-	ThemeProvider,
-	ThemeContext,
-	WeatherProvider,
-	PreferenceProvider
-} from '@context';
+import { ThemeProvider, ThemeContext, CityProvider } from '@context';
 import { AuthStackParamList, UserStackParamList } from '@navigation';
 import { HomeScreen, LoginScreen, SignupScreen } from '@screens';
+
+const queryClient = new QueryClient();
 
 const authScreens = () => {
 	const Stack = createStackNavigator<AuthStackParamList>();
@@ -36,15 +34,15 @@ const userScreens = () => {
 	const Stack = createStackNavigator<UserStackParamList>();
 
 	return (
-		<WeatherProvider>
-			<PreferenceProvider>
+		<QueryClientProvider client={queryClient}>
+			<CityProvider>
 				<Stack.Navigator
 					initialRouteName="Home"
 					screenOptions={{ headerTransparent: true }}>
 					<Stack.Screen name="Home" component={HomeScreen} />
 				</Stack.Navigator>
-			</PreferenceProvider>
-		</WeatherProvider>
+			</CityProvider>
+		</QueryClientProvider>
 	);
 };
 
@@ -66,7 +64,6 @@ const App: FC = () => {
 		return <AppLoading />;
 	}
 
-	// TODO: remove WeatherProvider and PreferenceProvider from here and add so they are called only when logged in
 	return (
 		<SafeAreaProvider>
 			<ThemeProvider>

@@ -20,9 +20,11 @@ import { StatsView, WeeklyWeatherSheet } from '@components/view';
 import { uvIndexLabel, getImageUri, showToast } from '@hooks/ui';
 import { useTheme } from '@hooks/theme';
 import { CurrentWeather } from '@models';
-import { WeatherContext, ThemeContext, PreferenceContext } from '@context';
+import { ThemeContext, CityContext } from '@context';
 import { UserStackParamList } from '@navigation';
 import { styles } from './styles';
+import { useQuery } from 'react-query';
+import { apiWeather } from '@api';
 
 interface Props {
 	navigation: StackNavigationProp<UserStackParamList>;
@@ -30,18 +32,30 @@ interface Props {
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
 	const {
-		state,
-		actions: { fetchWeather }
-	} = useContext(WeatherContext);
-	const {
-		state: { current: currentCity },
+		state: currentCity,
 		actions: { updateCurrent }
-	} = useContext(PreferenceContext);
+	} = useContext(CityContext);
 	const {
 		actions: { updateTheme }
 	} = useContext(ThemeContext);
 	const { colors } = useTheme();
 	const [showNextWeek, setShowNextWeek] = useState(false);
+
+	const { data } = useQuery(
+		['weather', currentCity],
+		({ signal }) => {
+			if (currentCity === undefined) {
+				return undefined;
+			}
+			return apiWeather(currentCity.coords, signal);
+		},
+		{
+			staleTime: 10 * 60 * 1000,
+			onError: err => {
+				console.error('apiWeather: ', err);
+			}
+		}
+	);
 
 	const fetchLocation = async () => {
 		let { status } = await Location.requestForegroundPermissionsAsync();
@@ -106,16 +120,10 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
 	}, []);
 
 	useEffect(() => {
-		if (currentCity) {
-			fetchWeather(currentCity.coords);
+		if (data) {
+			updateTheme(data.current.weather[0].main);
 		}
-	}, [currentCity]);
-
-	useEffect(() => {
-		if (state) {
-			updateTheme(state.current.weather[0].main);
-		}
-	}, [state?.current]);
+	}, [data?.current]);
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -123,11 +131,11 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
 		});
 	}, [navigation]);
 
-	if (state === undefined) {
+	if (data === undefined) {
 		return null;
 	}
 
-	const { current, hourly, daily, timezone } = state;
+	const { current, hourly, daily, timezone } = data;
 	const currentTime = utcToZonedTime(current.dt * 1000, timezone);
 
 	return (

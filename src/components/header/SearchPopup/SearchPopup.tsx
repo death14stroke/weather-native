@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
 	View,
 	ListRenderItem,
@@ -8,13 +8,14 @@ import {
 import { Icon, Input } from 'react-native-elements';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useQuery } from 'react-query';
+import { useDebounce } from 'use-debounce/lib';
 import { useTheme } from '@hooks/theme';
-import { useDebouncedSearch } from '@hooks/search';
 import { Text } from '@components/theme';
 import { ListEmptyText } from '@components/list';
 import { City } from '@models';
 import { Colors } from '@styles';
-import { weatherApi } from '@api';
+import { apiSearchCities } from '@api';
 import { useStyles } from './styles';
 
 interface Props {
@@ -24,13 +25,13 @@ interface Props {
 
 const SearchPopup: FC<Props> = ({ onClose, onSelect }) => {
 	const styles = useStyles(useTheme(), useSafeAreaInsets());
-	const { _onChangeQuery, query, results, loading } = useDebouncedSearch(
-		(query, tokenSource) => {
-			return weatherApi.get<City[]>('/search', {
-				params: { query: query.toLowerCase() },
-				cancelToken: tokenSource.token
-			});
-		}
+	const [rawQuery, setRawQuery] = useState('');
+	const [query] = useDebounce(rawQuery, 1000);
+
+	const { data, isLoading } = useQuery<City[]>(
+		['search', query],
+		({ signal }) => apiSearchCities(query, signal),
+		{ staleTime: 30 * 60 * 1000 }
 	);
 
 	const closePopup = () => {
@@ -56,8 +57,8 @@ const SearchPopup: FC<Props> = ({ onClose, onSelect }) => {
 			<View style={styles.appBar}>
 				<Input
 					placeholder="Search"
-					value={query}
-					onChangeText={_onChangeQuery}
+					value={rawQuery}
+					onChangeText={setRawQuery}
 					inputStyle={styles.input}
 					inputContainerStyle={styles.inputContainer}
 					containerStyle={{ height: 55 }}
@@ -66,24 +67,29 @@ const SearchPopup: FC<Props> = ({ onClose, onSelect }) => {
 						name: 'search',
 						color: 'black'
 					}}
+					autoCompleteType="off"
 					leftIconContainerStyle={styles.leftIcon}
 					rightIcon={
 						<View style={{ flexDirection: 'row' }}>
-							{loading && (
+							{isLoading && (
 								<ActivityIndicator
 									color={Colors.fuchsiaPink}
 									style={styles.activityIndicator}
 								/>
 							)}
 							<TouchableOpacity onPress={closePopup}>
-								<Icon type="ionicon" name="close" />
+								<Icon
+									type="ionicon"
+									name="close"
+									tvParallaxProperties={undefined}
+								/>
 							</TouchableOpacity>
 						</View>
 					}
 				/>
 			</View>
 			<FlatList
-				data={results}
+				data={data}
 				keyExtractor={(city: City) => city._id}
 				renderItem={renderCity}
 				contentContainerStyle={styles.contentContainer}

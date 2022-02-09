@@ -1,1 +1,2 @@
-export { default as weatherApi } from './weatherApi';
+export * from './cities';
+export * from './weather';
