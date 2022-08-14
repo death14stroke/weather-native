@@ -10,7 +10,9 @@
 		"devices": "xcrun simctl list devices",
 		"start": "react-native start",
 		"test": "jest",
-		"lint": "eslint . --ext .ts,.tsx"
+		"lint": "eslint . --ext .ts,.tsx",
+		"preci": "rm -fr node_modules",
+		"ci": "yarn install --frozen-lockfile"
 	},
 	"lint-staged": {
 		"src/**/*.{js,jsx,ts,tsx,json}": [
