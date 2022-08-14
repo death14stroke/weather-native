@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="victoria">#5a4393</color>
+    <color name="portGore">#1f204c</color>
+    <color name="splashscreen_background">@color/victoria</color>
+</resources>

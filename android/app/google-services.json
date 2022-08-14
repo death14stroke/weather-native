@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:975268329111:android:74e476347a95856e9e1bd2",
+        "mobilesdk_app_id": "1:975268329111:android:1febc625be3ca5119e1bd2",
         "android_client_info": {
-          "package_name": "com.weathernative"
+          "package_name": "com.dailyrecipe"
         }
       },
       "oauth_client": [
@@ -29,6 +29,49 @@
             {
               "client_id": "975268329111-qgad21etkq10da7vmovu912u1keblpcb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "975268329111-no9m1k1c8s3uqi3k9b2osocrrrmjvj73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.DailyRecipe"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975268329111:android:923a850b757e2e889e1bd2",
+        "android_client_info": {
+          "package_name": "com.death14stroke.stormly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975268329111-qgad21etkq10da7vmovu912u1keblpcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNVJBLdlDwDNftCX8mlnvTgG-XtXaEljU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975268329111-qgad21etkq10da7vmovu912u1keblpcb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "975268329111-no9m1k1c8s3uqi3k9b2osocrrrmjvj73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.DailyRecipe"
+              }
             }
           ]
         }

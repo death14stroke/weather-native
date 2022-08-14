@@ -1,0 +1,50 @@
+{
+	"root": true,
+	"extends": "@react-native-community",
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint", "import"],
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js"],
+			"rules": {
+				"prettier/prettier": "warn",
+				"@typescript-eslint/no-shadow": "off",
+				"no-shadow": "off",
+				"no-undef": "off",
+				"comma-dangle": "off",
+				"jsx-quotes": "off",
+				"react/react-in-jsx-scope": "off",
+				"@typescript-eslint/no-unused-vars": "warn",
+				"sort-imports": ["warn", { "ignoreCase": true, "ignoreDeclarationSort": true }],
+				"import/order": [
+					"warn",
+					{
+						"groups": [
+							["external", "builtin"],
+							"internal",
+							["sibling", "parent"],
+							"index"
+						],
+						"pathGroups": [
+							{
+								"pattern": "@(react|react-native)",
+								"group": "external",
+								"position": "before"
+							},
+							{
+								"pattern": "@app/**",
+								"group": "internal"
+							}
+						],
+						"pathGroupsExcludedImportTypes": ["internal", "react"],
+						"newlines-between": "always",
+						"alphabetize": {
+							"order": "asc",
+							"caseInsensitive": true
+						}
+					}
+				]
+			}
+		}
+	]
+}

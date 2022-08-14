@@ -1,74 +1,75 @@
-import { Dimensions, StyleSheet } from 'react-native';
-import { FontFamily } from '@styles';
+import { Dimensions } from 'react-native';
+
+import { makeStyles } from '@rneui/themed';
+import { ms } from 'react-native-size-matters';
+
+import { Dimens, FontFamily } from '@app/styles';
+import { ds, fs } from '@app/utils';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
+export const useStyles = makeStyles(({ colors }) => ({
+	gradient: { flex: 1 },
 	container: {
 		flex: 1,
 		justifyContent: 'space-between',
-		paddingBottom: 4
+		paddingBottom: ds(4)
 	},
 	imageContainer: {
-		width: SCREEN_WIDTH * 0.8,
+		height: ms(300),
+		aspectRatio: 1,
 		alignSelf: 'center',
-		marginTop: 50
+		marginTop: ds(44)
 	},
-	image: {
-		width: 'auto',
-		aspectRatio: 1,
-		borderRadius: SCREEN_WIDTH * 0.4
-	},
+	image: { height: '100%', width: '100%', borderRadius: SCREEN_WIDTH },
 	tempContainer: {
-		backgroundColor: 'white',
-		width: 80,
+		backgroundColor: colors.white,
+		width: ms(80),
 		aspectRatio: 1,
-		borderRadius: 40,
-		elevation: 4,
-		shadowOffset: { width: 0, height: 2 },
+		borderRadius: ms(40),
+		elevation: ds(16),
+		shadowOffset: { width: ds(0), height: ds(2) },
 		shadowOpacity: 0.8,
-		shadowRadius: 4,
+		shadowRadius: ds(4),
 		position: 'absolute',
-		top: SCREEN_WIDTH * 0.1,
-		right: -SCREEN_WIDTH * 0.06,
+		top: ms(40),
+		right: -ms(20),
 		justifyContent: 'center'
 	},
 	temperature: {
-		color: 'black',
+		color: colors.black,
 		textAlign: 'center',
-		fontFamily: FontFamily.QUICKSAND_BOLD,
-		fontWeight: 'normal'
+		fontFamily: FontFamily.BOLD
 	},
 	weather: {
-		color: 'black',
-		fontFamily: FontFamily.QUICKSAND_BOLD,
-		fontWeight: 'normal',
+		color: colors.black,
+		fontFamily: FontFamily.BOLD,
 		textTransform: 'uppercase',
 		alignSelf: 'center',
-		marginTop: 12,
-		marginBottom: 8
+		marginTop: Dimens.PADDING_CONTENT,
+		marginBottom: Dimens.ITEM_SEPARATOR
 	},
 	day: {
 		alignSelf: 'center',
-		fontFamily: FontFamily.QUICKSAND_BOLD,
-		fontWeight: 'normal'
+		fontFamily: FontFamily.BOLD
 	},
 	time: {
 		alignSelf: 'center',
-		fontSize: 16
+		fontSize: fs(16)
 	},
-	hourlyWeather: {
-		marginHorizontal: 8,
-		width: SCREEN_WIDTH * 0.33 - 8
+	hourlyList: { flexGrow: 0 },
+	hourlyListContainer: {
+		marginStart: Dimens.PADDING_SCREEN,
+		marginVertical: Dimens.ITEM_SEPARATOR
 	},
 	statsRow: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		marginTop: 12
+		marginTop: Dimens.PADDING_CONTENT
 	},
 	bottomSheetLabel: {
-		fontFamily: FontFamily.QUICKSAND_BOLD,
+		fontFamily: FontFamily.BOLD,
 		alignSelf: 'center',
-		fontSize: 16
+		fontSize: fs(16)
 	}
-});
+}));

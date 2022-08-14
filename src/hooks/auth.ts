@@ -3,20 +3,11 @@ import auth from '@react-native-firebase/auth';
 type LoginParams = { email: string; password: string };
 type SignupParams = LoginParams & { username: string };
 
-export const signupWithEmail = async ({
-	email,
-	password,
-	username
-}: SignupParams) => {
+export const signupWithEmail = async ({ email, password, username }: SignupParams) => {
 	try {
-		const { user } = await auth().createUserWithEmailAndPassword(
-			email,
-			password
-		);
+		const { user } = await auth().createUserWithEmailAndPassword(email, password);
 		if (user) {
-			user.updateProfile({
-				displayName: username
-			});
+			await user.updateProfile({ displayName: username });
 			return Promise.resolve();
 		}
 	} catch (err: any) {
@@ -74,6 +65,4 @@ export const forgotPassword = async (email: string) => {
 	}
 };
 
-export const useCurrentUser = () => {
-	return auth().currentUser;
-};
+export const useCurrentUser = () => auth().currentUser;

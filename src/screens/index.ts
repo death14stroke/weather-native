@@ -1,3 +1,2 @@
-export * from './Home/HomeScreen';
-export * from './Login/LoginScreen';
+export { default as HomeScreen } from './Home/HomeScreen';
 export * from './Signup/SignupScreen';

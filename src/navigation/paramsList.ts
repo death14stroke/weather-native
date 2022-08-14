@@ -1,8 +1,5 @@
-export type UserStackParamList = {
-	Home: undefined;
-};
-
-export type AuthStackParamList = {
+export type RootStackParamList = {
 	Signup: undefined;
 	Login: undefined;
+	Home: undefined;
 };

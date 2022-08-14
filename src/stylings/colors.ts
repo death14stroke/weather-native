@@ -33,5 +33,9 @@ export const Colors = {
 	givry: '#f8e3cc',
 	ash: '#c6c1b4',
 	scarpaFlow: '#57585f',
-	westar: '#e3e0da'
+	westar: '#e3e0da',
+	white: 'white',
+	white50: '#ffffff80',
+	black: 'black',
+	black20: '#00000033'
 };

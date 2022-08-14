@@ -1,82 +1,83 @@
-import React, { FC, useState, useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AppLoading from 'expo-app-loading';
-import {
-	useFonts,
-	Quicksand_400Regular,
-	Quicksand_700Bold
-} from '@expo-google-fonts/quicksand';
+import React, { useEffect, useState } from 'react';
+
+import { Quicksand_400Regular, Quicksand_700Bold } from '@expo-google-fonts/quicksand';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { ThemeProvider, ThemeContext, CityProvider } from '@context';
-import { AuthStackParamList, UserStackParamList } from '@navigation';
-import { HomeScreen, LoginScreen, SignupScreen } from '@screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '@rneui/themed';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { persistQueryClient } from '@tanstack/react-query-persist-client';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const queryClient = new QueryClient();
+import { asyncStoragePersister, queryClient } from '@app/data';
+import { stackNavigation } from '@app/navigation';
+import { ClearTheme, FontFamily } from '@app/styles';
 
-const authScreens = () => {
-	const Stack = createStackNavigator<AuthStackParamList>();
-
-	return (
-		<Stack.Navigator
-			screenOptions={{ headerShown: false }}
-			initialRouteName="Signup">
-			<Stack.Screen name="Signup" component={SignupScreen} />
-			<Stack.Screen name="Login" component={LoginScreen} />
-		</Stack.Navigator>
-	);
-};
-
-const userScreens = () => {
-	const Stack = createStackNavigator<UserStackParamList>();
-
-	return (
-		<QueryClientProvider client={queryClient}>
-			<CityProvider>
-				<Stack.Navigator
-					initialRouteName="Home"
-					screenOptions={{ headerTransparent: true }}>
-					<Stack.Screen name="Home" component={HomeScreen} />
-				</Stack.Navigator>
-			</CityProvider>
-		</QueryClientProvider>
-	);
-};
-
-const App: FC = () => {
-	let [fontsLoaded] = useFonts({ Quicksand_400Regular, Quicksand_700Bold });
-	const [loading, setLoading] = useState(false);
+const Screens = () => {
+	const [appIsReady, setAppIsReady] = useState(false);
+	const [authReady, setAuthReady] = useState(false);
 	const [user, setUser] = useState<FirebaseAuthTypes.User | null>();
 
 	useEffect(() => {
 		const unsubscribe = auth().onAuthStateChanged(user => {
 			setUser(user);
-			setLoading(false);
+			setAuthReady(true);
 		});
 
 		return unsubscribe;
 	}, []);
 
-	if (!fontsLoaded || loading) {
-		return <AppLoading />;
+	useEffect(() => {
+		async function prepare() {
+			try {
+				await Font.loadAsync({
+					[FontFamily.REGULAR]: Quicksand_400Regular,
+					[FontFamily.BOLD]: Quicksand_700Bold
+				});
+			} catch (e) {
+				console.warn(e);
+			} finally {
+				setAppIsReady(true);
+			}
+		}
+
+		prepare();
+	}, []);
+
+	useEffect(() => {
+		async function hide() {
+			await SplashScreen.hideAsync();
+		}
+
+		if (appIsReady && authReady) {
+			hide();
+		}
+	}, [appIsReady, authReady]);
+
+	if (!appIsReady || !authReady) {
+		return null;
 	}
 
-	return (
-		<SafeAreaProvider>
-			<ThemeProvider>
-				<ThemeContext.Consumer>
-					{({ state }) => (
-						<NavigationContainer theme={state}>
-							{user ? userScreens() : authScreens()}
-						</NavigationContainer>
-					)}
-				</ThemeContext.Consumer>
-			</ThemeProvider>
-		</SafeAreaProvider>
-	);
+	return <NavigationContainer>{stackNavigation(user)}</NavigationContainer>;
 };
 
-export default App;
+SplashScreen.preventAutoHideAsync();
+
+persistQueryClient({
+	queryClient,
+	persister: asyncStoragePersister
+});
+
+export default function App() {
+	return (
+		<SafeAreaProvider>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={ClearTheme}>
+					<Screens />
+				</ThemeProvider>
+			</QueryClientProvider>
+		</SafeAreaProvider>
+	);
+}

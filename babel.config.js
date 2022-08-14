@@ -1,7 +1,7 @@
 module.exports = {
 	presets: ['module:metro-react-native-babel-preset'],
 	plugins: [
-		'react-native-reanimated/plugin',
+		['transform-remove-console', { exclude: ['error', 'warn'] }],
 		[
 			'module-resolver',
 			{
@@ -18,17 +18,20 @@ module.exports = {
 					'.json'
 				],
 				alias: {
-					'@screens': './src/screens',
-					'@components': './src/components',
-					'@hooks': './src/hooks',
-					'@models': './src/models',
-					'@styles': './src/stylings',
-					'@context': './src/context',
-					'@assets': './assets',
-					'@navigation': './src/navigation',
-					'@api': './src/api'
+					'@app/screens': './src/screens',
+					'@app/components': './src/components',
+					'@app/hooks': './src/hooks',
+					'@app/models': './src/models',
+					'@app/styles': './src/stylings',
+					'@app/context': './src/context',
+					'@app/assets': './assets',
+					'@app/navigation': './src/navigation',
+					'@app/api': './src/api',
+					'@app/data': './src/data',
+					'@app/utils': './src/utils'
 				}
 			}
-		]
+		],
+		'react-native-reanimated/plugin'
 	]
 };

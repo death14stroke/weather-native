@@ -1,4 +1,4 @@
 export const FontFamily = {
-	QUICKSAND_REGULAR: 'Quicksand_400Regular',
-	QUICKSAND_BOLD: 'Quicksand_700Bold'
+	REGULAR: 'Quicksand_400Regular',
+	BOLD: 'Quicksand_700Bold'
 };

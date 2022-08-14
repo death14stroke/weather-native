@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { useCurrentUser } from '@hooks/auth';
+import Config from 'react-native-config';
+
+import { useCurrentUser } from '@app/hooks';
 
 const instance = axios.create({
-	baseURL: 'https://weather-native.herokuapp.com/'
+	baseURL: Config.API_URL
 });
 
 instance.interceptors.request.use(

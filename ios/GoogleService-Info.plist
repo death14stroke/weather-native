@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>975268329111-u9pgg5uj46qgkvi6k8rf0i5enghqi01a.apps.googleusercontent.com</string>
+	<string>975268329111-mjqtkh55bsv6pmc1gq6maglcsracd0kk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.975268329111-u9pgg5uj46qgkvi6k8rf0i5enghqi01a</string>
+	<string>com.googleusercontent.apps.975268329111-mjqtkh55bsv6pmc1gq6maglcsracd0kk</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCcvO0AlQ27Zi7XZjJGWCSlAghAtTkSlUU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.WeatherNative</string>
+	<string>com.death14stroke.stormly</string>
 	<key>PROJECT_ID</key>
 	<string>common-auth-dbd0c</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:975268329111:ios:beac7b04c12d58309e1bd2</string>
+	<string>1:975268329111:ios:95f115eec93c38349e1bd2</string>
 </dict>
 </plist>

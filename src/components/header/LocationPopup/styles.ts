@@ -1,34 +1,35 @@
-import { StyleSheet } from 'react-native';
-import { FontFamily } from '@styles';
+import { makeStyles } from '@rneui/themed';
 
-export const styles = StyleSheet.create({
+import { Dimens } from '@app/styles';
+import { ds, fs } from '@app/utils';
+
+export const useStyles = makeStyles(({ colors }) => ({
 	container: {
 		flex: 1,
 		overflow: 'hidden'
 	},
 	contentContainer: {
-		marginLeft: 30,
+		marginLeft: ds(28),
+		marginTop: Dimens.ITEM_SEPARATOR,
 		flexGrow: 1
 	},
 	addContainer: {
 		flexDirection: 'row',
-		marginTop: 4,
-		marginBottom: 16,
-		height: 30,
+		marginTop: ds(4),
+		marginBottom: Dimens.PADDING_SCREEN,
 		alignItems: 'center'
 	},
 	addLocationText: {
-		color: 'black',
-		fontSize: 18,
-		fontFamily: FontFamily.QUICKSAND_BOLD,
-		marginLeft: 8
+		color: colors.black,
+		fontSize: fs(16),
+		marginLeft: Dimens.ITEM_SEPARATOR
 	},
 	locationItem: {
-		color: 'gray',
-		fontSize: 18,
+		color: colors.grey3,
+		fontSize: fs(16),
 		alignSelf: 'flex-start'
 	},
 	itemTouch: {
-		marginVertical: 8
+		marginVertical: Dimens.ITEM_SEPARATOR
 	}
-});
+}));
