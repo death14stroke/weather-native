@@ -5,8 +5,6 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
 
 apply plugin: 'com.google.gms.google-services'
 
-apply from: project.property("WeatherNative.signing") + ".gradle";
-
 import com.android.build.OutputFile
 
 /**
@@ -232,10 +230,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(project.property("WeatherNative.signing") + ".keystore")
-            storePassword myStorePassword
-            keyAlias myKeyAlias
-            keyPassword myKeyPassword
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
     buildTypes {
